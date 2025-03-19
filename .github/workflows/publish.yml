@@ -16,7 +16,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build the Asterisk Docker Image
         run: |
-          docker build . --tag ghcr.io/AllStarLink/asl3-asterisk-ci:latest
-          docker run ghcr.io/AllStarLink/asl3-asterisk-ci:latest
-          docker push ghcr.io/AllStarLink/asl3-asterisk-ci:latest
+          docker build . --tag ghcr.io/allstarlink/asl3-asterisk-ci:latest
+          docker run ghcr.io/allstarlink/asl3-asterisk-ci:latest
+          docker push ghcr.io/allstarlink/asl3-asterisk-ci:latest
         
