@@ -3,7 +3,7 @@ FROM mcr.microsoft.com/devcontainers/cpp:dev-debian12 as build
 
 ARG REL_VER="1.0.0"
 ARG AST_VER="22.2.0"
-ARG RPT_VER="3.2.0"
+ARG RPT_VER="3.3.0"
 ENV REL_VER=$REL_VER
 ENV AST_VER=$AST_VER
 ENV RPT_VER=$RPT_VER
