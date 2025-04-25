@@ -3,7 +3,7 @@ FROM mcr.microsoft.com/devcontainers/cpp:dev-debian12 as build
 
 ARG REL_VER="1.0.0"
 ARG AST_VER="22.2.0"
-ARG RPT_VER="3.4.3"
+ARG RPT_VER="3.4.4"
 ENV REL_VER=$REL_VER
 ENV AST_VER=$AST_VER
 ENV RPT_VER=$RPT_VER
@@ -20,7 +20,8 @@ RUN sysctl net.ipv6.conf.all.disable_ipv6 && \
     ls -la ./asl3-asterisk
 
 WORKDIR /workspaces/asl3-asterisk
-RUN ./build-asl3 -l -d /workspaces -a $AST_VER -v $RPT_VER -r $REL_VER source && \
-    ./build-asl3 -l -d /workspaces -a $AST_VER -v $RPT_VER -r $REL_VER build
+RUN ./build-asl3 -l -a $AST_VER -v $RPT_VER -r $REL_VER source && \
+    ./build-asl3 -l -a $AST_VER -v $RPT_VER -r $REL_VER build && \
+    ln -s /usr/src/app_rpt /workspaces/app_rpt
 
 ENV LANG en_US.utf8
