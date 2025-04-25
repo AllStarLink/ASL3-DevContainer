@@ -12,16 +12,15 @@ SHELL ["/bin/bash", "-c"]
 RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y locales \
     procps git sudo patch apt-utils
 
+WORKDIR /usr/src/asl3-asterisk
 RUN sysctl net.ipv6.conf.all.disable_ipv6 && \
-    mkdir /workspaces && \
-    cd /workspaces && \
+    cd /usr/src && \
     ls -la && \
     git clone https://github.com/AllStarLink/asl3-asterisk.git && \
     ls -la ./asl3-asterisk
 
-WORKDIR /workspaces/asl3-asterisk
+
 RUN ./build-asl3 -l -a $AST_VER -v $RPT_VER -r $REL_VER source && \
-    ./build-asl3 -l -a $AST_VER -v $RPT_VER -r $REL_VER build && \
-    ln -s /usr/src/app_rpt /workspaces/app_rpt
+    ./build-asl3 -l -a $AST_VER -v $RPT_VER -r $REL_VER build
 
 ENV LANG en_US.utf8
