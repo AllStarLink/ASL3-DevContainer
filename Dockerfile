@@ -1,5 +1,5 @@
 
-FROM mcr.microsoft.com/devcontainers/cpp:dev-debian12 as build
+FROM debian:stable as build
 
 ARG REL_VER="1.0.0"
 ARG AST_VER="22.2.0"
@@ -9,8 +9,13 @@ ENV AST_VER=$AST_VER
 ENV RPT_VER=$RPT_VER
 
 SHELL ["/bin/bash", "-c"]
+
+RUN apt-get update && apt-get install -y locales && rm -rf /var/lib/apt/lists/* \
+	&& localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
+ENV LANG en_US.utf8
+
 RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y locales \
-    procps git sudo patch apt-utils
+    procps git sudo patch apt-utils 
 
 WORKDIR /usr/src/asl3-asterisk
 RUN sysctl net.ipv6.conf.all.disable_ipv6 && \
@@ -21,6 +26,8 @@ RUN sysctl net.ipv6.conf.all.disable_ipv6 && \
 
 
 RUN ./build-asl3 -l -a $AST_VER -v $RPT_VER -r $REL_VER source && \
-    ./build-asl3 -l -a $AST_VER -v $RPT_VER -r $REL_VER build
+    ./build-asl3 -l -a $AST_VER -v $RPT_VER -r $REL_VER build && \
+    rm -r /usr/src/app_rpt && \
+    ln -s /workspaces/app_rpt /usr/src/app_rpt 
 
 ENV LANG en_US.utf8
